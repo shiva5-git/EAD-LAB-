@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chessboard </title>
+  <h1>Chessboard With  Pieces</h1>
+  <style>
+    h1{
+        text-align: center;
+        color: #769656;
+    }
+    #chessboard {
+      width: 320px;           /* 8 squares * 40px */
+      height: 320px;
+      display: flex;
+      flex-wrap: wrap;
+      border: 2px solid black;
+      margin: 20px auto;
+      font-size: 32px;
+      font-family: "Arial Unicode MS", Arial, sans-serif;
+      user-select: none;
+    }
+    .square {
+      width: 40px;
+      height: 40px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .square.black {
+      background-color: #769656;  /* dark squares */
+      color: white;
+    }
+    .square.white {
+      background-color: #eeeed2;  /* light squares */
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="chessboard"></div>
+
+  <script>
+    const board = document.getElementById('chessboard');
+
+    // Unicode chess pieces
+    const pieces = {
+      black: {
+        king: '♚',
+        queen: '♛',
+        rook: '♜',
+        bishop: '♝',
+        knight: '♞',
+        pawn: '♟'
+      },
+      white: {
+        king: '♔',
+        queen: '♕',
+        rook: '♖',
+        bishop: '♗',
+        knight: '♘',
+        pawn: '♙'
+      }
+    };
+
+    // Board setup - each row is an array representing pieces or empty squares
+    // Use piece codes: K, Q, R, B, N, P for white, lowercase for black
+    // We'll place pawns on row 1 and 6, other pieces on rows 0 and 7
+    const initialBoard = [
+      ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'], // black back rank
+      ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'], // black pawns
+      ['',  '',  '',  '',  '',  '',  '',  ''],   // empty rows
+      ['',  '',  '',  '',  '',  '',  '',  ''],
+      ['',  '',  '',  '',  '',  '',  '',  ''],
+      ['',  '',  '',  '',  '',  '',  '',  ''],
+      ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'], // white pawns
+      ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']  // white back rank
+    ];
+
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 8; col++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        // color squares in alternating pattern
+        if ((row + col) % 2 === 1) {
+          square.classList.add('black');
+        } else {
+          square.classList.add('white');
+        }
+
+        const pieceChar = initialBoard[row][col];
+
+        if (pieceChar) {
+          let pieceUnicode = '';
+          if (pieceChar === pieceChar.toUpperCase()) {
+            // white piece
+            switch(pieceChar) {
+              case 'K': pieceUnicode = pieces.white.king; break;
+              case 'Q': pieceUnicode = pieces.white.queen; break;
+              case 'R': pieceUnicode = pieces.white.rook; break;
+              case 'B': pieceUnicode = pieces.white.bishop; break;
+              case 'N': pieceUnicode = pieces.white.knight; break;
+              case 'P': pieceUnicode = pieces.white.pawn; break;
+            }
+          } else {
+            // black piece
+            switch(pieceChar) {
+              case 'k': pieceUnicode = pieces.black.king; break;
+              case 'q': pieceUnicode = pieces.black.queen; break;
+              case 'r': pieceUnicode = pieces.black.rook; break;
+              case 'b': pieceUnicode = pieces.black.bishop; break;
+              case 'n': pieceUnicode = pieces.black.knight; break;
+              case 'p': pieceUnicode = pieces.black.pawn; break;
+            }
+          }
+          square.textContent = pieceUnicode;
+        }
+
+        board.appendChild(square);
+      }
+    }
+  </script>
+</body>
+</html>
